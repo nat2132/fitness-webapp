@@ -58,8 +58,8 @@ fitness-webapp/
 3. Create a `.env` file in the backend directory with the following variables:
    ```
    PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/fitness-app
-   JWT_SECRET=your_jwt_secret
+   MONGODB_URI=mongodb+srv://dbuser:rX-uLn5:kWLqx-3@cluster0.mongodb.net/fitness?retryWrites=true&w=majority
+   JWT_SECRET=26a3969dd1b906d697437db96022a665
    ```
 4. Start the development server:
    ```bash
