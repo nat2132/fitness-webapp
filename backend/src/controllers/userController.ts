@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
+import type { HydratedDocument } from 'mongoose';
+import type { IUser } from '../models/User';
+
+// Never include the hashed password in API responses
+const sanitizeUser = (user: HydratedDocument<IUser>) => {
+  const { password: _password, ...userWithoutPassword } = user.toObject();
+  return userWithoutPassword;
+};
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -14,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
       { expiresIn: '7d' }
     );
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ user: sanitizeUser(user), token });
   } catch (error) {
     res.status(400).json({ error: 'Registration failed' });
   }
@@ -35,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '7d' }
     );
 
-    res.json({ user, token });
+    res.json({ user: sanitizeUser(user), token });
   } catch (error) {
     res.status(400).json({ error: 'Login failed' });
   }
@@ -43,7 +51,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const getProfile = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById((req as any).user._id).select('-password');
+    const user = await User.findById(req.user?._id).select('-password');
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch profile' });
