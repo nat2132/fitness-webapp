@@ -2,11 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 
-interface AuthRequest extends Request {
-  user?: any;
-}
-
-export const auth = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
@@ -15,7 +11,7 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret_here');
-    const user = await User.findOne({ _id: (decoded as any)._id });
+    const user = await User.findOne({ _id: (decoded as { _id?: string })._id });
 
     if (!user) {
       throw new Error();

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoutes from './routes/userRoutes';
+import activityRoutes from './routes/activityRoutes';
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +22,7 @@ mongoose.connect(MONGODB_URI)
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/activities', activityRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
