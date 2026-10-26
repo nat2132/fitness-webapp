@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/hooks/use-toast"
+import { api } from "@/lib/api"
 
 const formSchema = z.object({
   email: z.string().email({
@@ -32,22 +33,33 @@ export default function LoginPage() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    
-    // Simulate authentication
-    setTimeout(() => {
-      // Store a dummy token
-      localStorage.setItem('token', 'dummy-token');
-      
+
+    try {
+      const { user, token } = await api.login(values.email, values.password)
+
+      localStorage.setItem("token", token)
+      localStorage.setItem("user", JSON.stringify(user))
+
       toast({
         title: "Login successful!",
         description: "Welcome back to FitTrack.",
-      });
-      
-      navigate("/dashboard");
-      setIsLoading(false);
-    }, 1000);
+      })
+
+      navigate("/dashboard")
+    } catch (error) {
+      toast({
+        title: "Login failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Please check your credentials and try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

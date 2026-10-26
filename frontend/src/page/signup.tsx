@@ -11,6 +11,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/hooks/use-toast"
+import { api } from "@/lib/api"
 
 const formSchema = z
   .object({
@@ -51,15 +52,34 @@ export default function RegisterPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      const { user, token } = await api.register(
+        values.name,
+        values.email,
+        values.password
+      )
+
+      localStorage.setItem("token", token)
+      localStorage.setItem("user", JSON.stringify(user))
+
       toast({
         title: "Registration successful!",
         description: "Welcome to FitTrack. You can now log in.",
       })
+
       navigate("/login")
-    }, 1500)
+    } catch (error) {
+      toast({
+        title: "Registration failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
