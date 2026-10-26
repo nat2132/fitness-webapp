@@ -41,7 +41,7 @@ const mealFormSchema = z.object({
 export default function MealLogPage() {
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [activeTab, setActiveTab] = useState("manual")
+  const [, setActiveTab] = useState("manual")
 
   const form = useForm<z.infer<typeof mealFormSchema>>({
     resolver: zodResolver(mealFormSchema),
@@ -55,7 +55,7 @@ export default function MealLogPage() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof mealFormSchema>) {
+  function onSubmit(_values: z.infer<typeof mealFormSchema>) {
     setIsSubmitting(true)
 
     // Simulate API call

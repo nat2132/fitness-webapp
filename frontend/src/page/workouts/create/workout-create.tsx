@@ -74,7 +74,7 @@ export default function CreateWorkoutPage() {
     name: "exercises",
   })
 
-  function onSubmit(data: WorkoutFormValues) {
+  function onSubmit(_data: WorkoutFormValues) {
     setIsLoading(true)
 
     // Simulate API call

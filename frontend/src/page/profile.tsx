@@ -35,13 +35,6 @@ const profileFormSchema = z.object({
   }),
 })
 
-const notificationFormSchema = z.object({
-  emailNotifications: z.boolean().default(true),
-  pushNotifications: z.boolean().default(true),
-  weeklyReport: z.boolean().default(true),
-  achievementAlerts: z.boolean().default(true),
-})
-
 export default function ProfilePage() {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -57,7 +50,7 @@ export default function ProfilePage() {
     },
   })
 
-  function onProfileSubmit(values: z.infer<typeof profileFormSchema>) {
+  function onProfileSubmit(_values: z.infer<typeof profileFormSchema>) {
     setIsLoading(true)
 
     // Simulate API call

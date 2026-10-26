@@ -25,7 +25,7 @@ const formSchema = z
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate()
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams()[0]
   const token = searchParams.get("token")
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -38,7 +38,7 @@ export default function ResetPasswordPage() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(_values: z.infer<typeof formSchema>) {
     if (!token) {
       toast({
         title: "Invalid token",

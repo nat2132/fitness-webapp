@@ -30,10 +30,10 @@ const accountFormSchema = z.object({
 })
 
 const notificationFormSchema = z.object({
-  emailNotifications: z.boolean().default(true),
-  pushNotifications: z.boolean().default(true),
-  weeklyReport: z.boolean().default(true),
-  achievementAlerts: z.boolean().default(true),
+  emailNotifications: z.boolean(),
+  pushNotifications: z.boolean(),
+  weeklyReport: z.boolean(),
+  achievementAlerts: z.boolean(),
 })
 
 const securityFormSchema = z
@@ -102,7 +102,7 @@ export default function SettingsPage() {
     }, 1000)
   }
 
-  function onNotificationSubmit(values: z.infer<typeof notificationFormSchema>) {
+  function onNotificationSubmit(_values: z.infer<typeof notificationFormSchema>) {
     setIsLoading(true)
 
     // Simulate API call
@@ -115,7 +115,7 @@ export default function SettingsPage() {
     }, 1000)
   }
 
-  function onSecuritySubmit(values: z.infer<typeof securityFormSchema>) {
+  function onSecuritySubmit(_values: z.infer<typeof securityFormSchema>) {
     setIsLoading(true)
 
     // Simulate API call
