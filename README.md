@@ -55,16 +55,28 @@ fitness-webapp/
    ```bash
    npm install
    ```
-3. Create a `.env` file in the backend directory with the following variables:
+3. Create a `.env` file in the backend directory (use `backend/.env.example` as a template) with the following variables:
    ```
    PORT=5000
-   MONGODB_URI=mongodb+srv://dbuser:rX-uLn5:kWLqx-3@cluster0.mongodb.net/fitness?retryWrites=true&w=majority
-   JWT_SECRET=26a3969dd1b906d697437db96022a665
+   MONGODB_URI=<your-atlas-uri>
+   JWT_SECRET=<your-jwt-secret>
+   CORS_ORIGIN=http://localhost:5173
    ```
+   Never commit your real `.env` file — it contains credentials and is already git-ignored.
 4. Start the development server:
    ```bash
    npm run dev
    ```
+
+## Environment Variables
+
+| Variable | Location | Required | Description |
+| --- | --- | --- | --- |
+| `PORT` | backend | No | Port the backend listens on (default: `5000`). |
+| `MONGODB_URI` | backend | Yes | MongoDB connection string (MongoDB Atlas or local). |
+| `JWT_SECRET` | backend | Yes | Secret used to sign JWTs. Use a long random string. |
+| `CORS_ORIGIN` | backend | No | Comma-separated list of allowed CORS origins (default: `http://localhost:5173`). |
+| `VITE_API_BASE_URL` | frontend | No | Base URL of the backend API. Leave empty in development (the Vite dev server proxies `/api` to `http://localhost:5000`); set the full API URL in production. |
 
 ## Technologies Used
 
